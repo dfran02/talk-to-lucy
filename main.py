@@ -1,0 +1,149 @@
+from subprocess import Popen, PIPE 
+from time import sleep, perf_counter 
+from datetime import datetime 
+from gpiozero import OutputDevice 
+from digitalio import DigitalInOut, Direction, Pull
+import board 
+import adafruit_character_lcd.character_lcd as characterlcd 
+
+def squirt_them_squirrels(channel):
+    lcd_line_1 = "squirrels!!!"
+    lcd.message = lcd_line_1 + lcd_line_2
+    print("squirt them squirrels!\n")
+
+    relay_1.on()
+    sleep(5)
+    relay_1.off()
+    return
+
+def lucy_wants_to_eat(channel):
+    lcd_line_2 = "Lucy is HUNGRY!!"
+    lcd.message = lcd_line_2 + lcd_line_2
+    print("lucy wants to eat\n")
+    return
+
+def lucy_wants_to_go_out(channel):
+    lcd_line_1 = "OUT! OUT! OUT!"
+    lcd.message = lcd_line_1 + lcd_line_2
+    print("lucy wants to go out\n")
+    return
+
+# constants
+lcd_columns = 16
+lcd_rows = 2
+
+# gpio pin assignment
+lcd_rs = DigitalInOut(board.D4)
+lcd_en = DigitalInOut(board.D17)
+lcd_d4 = DigitalInOut(board.D27)
+lcd_d5 = DigitalInOut(board.D22)
+lcd_d6 = DigitalInOut(board.D25)
+lcd_d7 = DigitalInOut(board.D24)
+
+btn_1 = DigitalInOut(board.D14)
+btn_1.direction = Direction.INPUT
+btn_1.pull = Pull.UP
+
+btn_2 = DigitalInOut(board.D15)
+btn_2.direction = Direction.INPUT
+btn_2.pull = Pull.UP
+
+btn_3 = DigitalInOut(board.D18)
+btn_3.direction = Direction.INPUT
+btn_3.pull = Pull.UP
+
+btn_yel = DigitalInOut(board.D7)
+btn_yel.direction = Direction.INPUT
+btn_yel.pull = Pull.UP
+
+relay_1 = OutputDevice(23) 
+
+lcd = characterlcd.Character_LCD_Mono(lcd_rs, lcd_en, lcd_d4, lcd_d5, lcd_d6,
+	                                      lcd_d7, lcd_columns, lcd_rows)
+
+lcd.clear()
+
+lcd_line_1 = "initializing...."
+lcd.message = lcd_line_1
+
+relay_1.on()
+sleep(0.5)
+relay_1.off()
+sleep(0.5)
+relay_1.on()
+sleep(0.5)
+#relay_1.off()
+
+lcd.clear()
+
+# main loop
+while True:
+    lcd.clear()
+
+    lcd_line_1 = "y: " + str(btn_yel.value)  + " 1: " +  str(btn_1.value)
+    lcd_line_2 = "2: " + str(btn_2.value) + " 3: " + str(btn_3.value)
+    # lcd_line_2 = str(btn_yel.value)
+
+
+
+    lcd.message = lcd_line_1 + "\n" + lcd_line_2
+    print(lcd_line_1 + " " + lcd_line_2)
+    
+    sleep(0.01)
+
+
+# looking for an active Ethernet or WiFi device
+def find_interface():
+#    dev_name = 0 # sets dev_name so that function does not return Null and crash code
+    find_device = "ip addr show"
+    interface_parse = run_cmd(find_device)
+    for line in interface_parse.splitlines():
+        if "state UP" in line:
+            dev_name = line.split(':')[1]
+            return dev_name
+    return 1 # avoids returning Null if "state UP" doesn't exist
+
+# find an active IP on the first LIVE network device
+def parse_ip():
+    if interface == 1: # if true, no device is in "state UP", skip IP check
+        return "not assigned " # display "IP not assigned"
+    ip = "0"
+    find_ip = "ip addr show %s" % interface
+    ip_parse = run_cmd(find_ip)
+    for line in ip_parse.splitlines():
+        if "inet " in line:
+            ip = line.split(' ')[5]
+            ip = ip.split('/')[0]
+            return ip # returns IP address, if found
+    return "pending      " # display "IP pending" when "state UP", but no IPv4 address yet
+
+# run unix shell command, return as ASCII
+def run_cmd(cmd):
+    p = Popen(cmd, shell=True, stdout=PIPE)
+    output = p.communicate()[0]
+    return output.decode('ascii')
+
+# wipe LCD screen before we start
+#lcd.clear()
+
+
+# before we start the main loop - detect active network device and ip address
+# set timer to = perf_counter(), for later use in IP update check
+#interface = find_interface()
+#ip_address = parse_ip()
+#timer = perf_counter()
+
+#GPIO.cleanup()
+
+#lcd_line_1 = datetime.now().strftime('%b %d  %H:%M:%S\n')
+#lcd_line_2 = "ready :)"
+#lcd.message = lcd_line_1 + lcd_line_2
+
+# while True:
+    # check for new IP addresses, at a slower rate than updating the clock
+#    if perf_counter() - timer >= 15:
+#        interface = find_interface()
+#        ip_address = parse_ip()
+#        timer = perf_counter()
+
+
