@@ -120,10 +120,12 @@ def lucy_wants_to_go_out():
 def button_press(led):
     led.on()
     print("press")
+    return
 
 def button_release(led):
     led.off()
     print("release")
+    return
 
 def button_hold(led, button):
     print("hold")
@@ -152,22 +154,29 @@ relay_1.off()
 
 lcd.clear()
 
-pygame.init()
-# btn_1 = Button(14)
+try:
+    pygame.init()
+    # btn_1 = Button(14)
 
 
 
 
 
-b_yel = Button(18, hold_time=0.25)
-b_yel.when_pressed = button_press
-# b_yel.when_held = button_hold(l_yel, b_yel)
-b_yel.when_held = button_hold
-b_yel.when_released = button_release
+    b_yel = Button(18, hold_time=0.25)
+    b_yel.when_pressed = button_press
+    # b_yel.when_held = button_hold(l_yel, b_yel)
+    b_yel.when_held = button_hold
+    b_yel.when_released = button_release
 
 
-
-pause()
+except KeyboardInterrupt:
+    print("bye bye!")
+except:
+    print("some error happened!")
+finally:
+    print("good bye!")
+    pygame.quit()
+    pause()
 
 
 
