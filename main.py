@@ -88,6 +88,7 @@ def squirt_them_squirrels():
     sleep(2)
     pygame.mixer.music.stop()
     pygame.mixer.quit()
+    return
     # lcd_line_1 = "squirrels!!!"
     # lcd_line_2 = "here we go!"
     # lcd.message = lcd_line_1 + lcd_line_2
