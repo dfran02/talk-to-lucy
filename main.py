@@ -46,6 +46,7 @@ relay_1 = OutputDevice(23)
 lcd = characterlcd.Character_LCD_Mono(lcd_rs, lcd_en, lcd_d4, lcd_d5, lcd_d6, lcd_d7, lcd_columns, lcd_rows)
 
 l_yel = LED(8)
+l_yel.on()
 
 test = path.join(path.dirname(__file__), 'assets', "imhungry.mp3")
 test2 = path.join(path.dirname(__file__), 'assets', "wannagoout.mp3")
@@ -171,8 +172,8 @@ try:
 except KeyboardInterrupt:
     print("bye bye!")
     pause()
-except:
-    print("some error happened!")
+except Exception as ex:
+    print("some error happened: ", ex)
     pause()
 finally:
     print("good bye!")
