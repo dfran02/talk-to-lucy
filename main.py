@@ -76,18 +76,25 @@ def squirt_them_squirrels():
     
     # reset panel status to "ready"
 
+    l_yel.on()
+    sleep(0.5)
+    l_yel.off()
+    sleep(0.5)
 
 
 
 
     print("squirt them squerrls")
-    pygame.init()
+
+    # todo: this isn't working
+    # pygame.init()
     # filepath = path.join(path.dirname(__file__), 'assets', "imhungry.mp3")
-    pygame.mixer.music.load("./assets/imhungry.mp3")
-    pygame.mixer.music.play()
-    sleep(2)
-    pygame.mixer.music.stop()
-    pygame.quit()
+    # pygame.mixer.music.load("./assets/imhungry.mp3")
+    # pygame.mixer.music.play()
+    # sleep(2)
+    # pygame.mixer.music.stop()
+    # pygame.quit()
+
     return
     # lcd_line_1 = "squirrels!!!"
     # lcd_line_2 = "here we go!"
@@ -113,6 +120,27 @@ def lucy_wants_to_go_out():
     # print("lucy wants to go out\n")
     # return
 
+def button_press(light):
+    light.on()
+    print("press")
+
+def button_release(light):
+    light.off()
+    print("release")
+
+def button_hold(light):
+    print("squirt_them_squirrels")
+    light.on()
+    sleep(0.25)
+    light.off()
+    sleep(0.25)
+    light.on()
+    sleep(0.25)
+    light.off()
+    sleep(0.25)
+    return
+
+
 lcd.clear()
 
 lcd_line_1 = "initializing...."
@@ -132,6 +160,17 @@ btn_1 = Button(14)
 btn_1.when_pressed = squirt_them_squirrels
 btn_1.when_held = lucy_wants_to_eat
 btn_1.when_released = lucy_wants_to_go_out
+
+
+
+l_yel = DigitalInOut(board.D8)
+
+b_yel = Button(18, held_time=0.25)
+b_yel.when_pressed = button_press(l_yel)
+b_yel.when_held = button_hold(l_yel)
+b_yel.when_released = button_release(l_yel)
+
+
 
 pause()
 
