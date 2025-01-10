@@ -49,37 +49,13 @@ lcd = characterlcd.Character_LCD_Mono(lcd_rs, lcd_en, lcd_d4, lcd_d5, lcd_d6, lc
 test = path.join(path.dirname(__file__), 'assets', "imhungry.mp3")
 test2 = path.join(path.dirname(__file__), 'assets', "wannagoout.mp3")
 
-pygame.mixer.init()
+# pygame.mixer.init()
 # sound_1 = pygame.mixer.Sound('./assets/imhungry.mp3')
 # sound_2 = pygame.mixer.Sound('./assets/wannagoout.mp3')
 # sound_1 = pygame.mixer.Sound(test)
 # sound_2 = pygame.mixer.Sound(test2)
-sound_1 = pygame.mixer.music.load(test)
-sound_2 = pygame.mixer.music.load(test2)
-
-
-lcd.clear()
-
-lcd_line_1 = "initializing...."
-lcd.message = lcd_line_1
-
-relay_1.on()
-sleep(0.5)
-relay_1.off()
-sleep(0.5)
-relay_1.on()
-sleep(0.5)
-relay_1.off()
-
-lcd.clear()
-
-btn_1 = Button(14)
-btn_1.when_pressed = squirt_them_squirrels
-btn_1.when_held = lucy_wants_to_eat
-btn_1.when_released = lucy_wants_to_go_out
-
-pause()
-
+# sound_1 = pygame.mixer.music.load(test)
+# sound_2 = pygame.mixer.music.load(test2)
 
 
 def squirt_them_squirrels():
@@ -114,6 +90,32 @@ def lucy_wants_to_go_out():
     # lcd.message = lcd_line_1 + lcd_line_2
     # print("lucy wants to go out\n")
     # return
+
+lcd.clear()
+
+lcd_line_1 = "initializing...."
+lcd.message = lcd_line_1
+
+relay_1.on()
+sleep(0.5)
+relay_1.off()
+sleep(0.5)
+relay_1.on()
+sleep(0.5)
+relay_1.off()
+
+lcd.clear()
+
+btn_1 = Button(14)
+btn_1.when_pressed = squirt_them_squirrels
+btn_1.when_held = lucy_wants_to_eat
+btn_1.when_released = lucy_wants_to_go_out
+
+pause()
+
+
+
+
 
 
 # main loop:
