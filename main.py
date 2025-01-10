@@ -81,7 +81,7 @@ def squirt_them_squirrels():
 
 
     print("squirt them squerrls")
-    pygame.mixer.init()
+    pygame.init()
     # filepath = path.join(path.dirname(__file__), 'assets', "imhungry.mp3")
     pygame.mixer.music.load("./assets/imhungry.mp3")
     pygame.mixer.music.play()
