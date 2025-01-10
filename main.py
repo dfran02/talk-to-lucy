@@ -7,7 +7,6 @@ from digitalio import DigitalInOut, Direction, Pull
 import board 
 import adafruit_character_lcd.character_lcd as characterlcd 
 import pygame
-import analogio
 
 def squirt_them_squirrels():
     print("squirt them squerrls")
@@ -65,7 +64,7 @@ lcd_d7 = DigitalInOut(board.D24)
 
 relay_1 = OutputDevice(23) 
 
-potentiometer = analogio.AnalogIn(board.D7)
+# potentiometer = analogio.AnalogIn(board.D7)
 
 lcd = characterlcd.Character_LCD_Mono(lcd_rs, lcd_en, lcd_d4, lcd_d5, lcd_d6, lcd_d7, lcd_columns, lcd_rows)
 
