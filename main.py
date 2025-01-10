@@ -152,7 +152,7 @@ relay_1.off()
 
 lcd.clear()
 
-btn_1 = Button(14)
+# btn_1 = Button(14)
 
 
 
