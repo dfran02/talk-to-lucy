@@ -2,7 +2,7 @@ from subprocess import Popen, PIPE
 from time import sleep, perf_counter 
 from signal import pause
 from datetime import datetime 
-from gpiozero import OutputDevice, Button
+from gpiozero import OutputDevice, Button, LED
 from digitalio import DigitalInOut, Direction, Pull
 from os import path
 import board 
@@ -45,6 +45,7 @@ relay_1 = OutputDevice(23)
 
 lcd = characterlcd.Character_LCD_Mono(lcd_rs, lcd_en, lcd_d4, lcd_d5, lcd_d6, lcd_d7, lcd_columns, lcd_rows)
 
+l_yel = LED(8)
 
 test = path.join(path.dirname(__file__), 'assets', "imhungry.mp3")
 test2 = path.join(path.dirname(__file__), 'assets', "wannagoout.mp3")
@@ -58,7 +59,7 @@ test2 = path.join(path.dirname(__file__), 'assets', "wannagoout.mp3")
 # sound_2 = pygame.mixer.music.load(test2)
 
 
-def squirt_them_squirrels():
+def squirt_them_squirrels(led):
 
     # play a sound
     # blink the light
@@ -76,10 +77,7 @@ def squirt_them_squirrels():
     
     # reset panel status to "ready"
 
-    l_yel.on()
-    sleep(0.5)
-    l_yel.off()
-    sleep(0.5)
+    led.blink(0.25, 0.25, 3, True)
 
 
 
@@ -120,24 +118,17 @@ def lucy_wants_to_go_out():
     # print("lucy wants to go out\n")
     # return
 
-def button_press(light):
-    light.on()
+def button_press(led):
+    led.on()
     print("press")
 
-def button_release(light):
-    light.off()
+def button_release(led):
+    led.off()
     print("release")
 
-def button_hold(light):
-    print("squirt_them_squirrels")
-    light.on()
-    sleep(0.25)
-    light.off()
-    sleep(0.25)
-    light.on()
-    sleep(0.25)
-    light.off()
-    sleep(0.25)
+def button_hold(led, button):
+    print("hold")
+    squirt_them_squirrels(led)
     return
 
 
@@ -163,11 +154,10 @@ btn_1.when_released = lucy_wants_to_go_out
 
 
 
-l_yel = DigitalInOut(board.D8)
 
 b_yel = Button(18, hold_time=0.25)
 b_yel.when_pressed = button_press(l_yel)
-b_yel.when_held = button_hold(l_yel)
+b_yel.when_held = button_hold(l_yel, b_yel)
 b_yel.when_released = button_release(l_yel)
 
 
