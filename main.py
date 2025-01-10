@@ -86,11 +86,11 @@ def squirt_them_squirrels():
     # todo: this isn't working
     # pygame.init()
     # filepath = path.join(path.dirname(__file__), 'assets', "imhungry.mp3")
-    # pygame.mixer.music.load("./assets/imhungry.mp3")
-    # pygame.mixer.music.play()
-    # sleep(2)
-    # pygame.mixer.music.stop()
-    # pygame.quit()
+    pygame.mixer.music.load("./assets/imhungry.mp3")
+    pygame.mixer.music.play()
+    sleep(20)
+    pygame.mixer.music.stop()
+    
 
     return
     # lcd_line_1 = "squirrels!!!"
@@ -128,11 +128,11 @@ def button_release(led):
 def button_hold(led, button):
     print("hold")
 
-    led.blink(0.25, 0.25, 3, True)
+    led.blink(0.25, 0.25, 10, True)
 
     # do a switch on the button to define which method to exec
     if (button.pin == 18):
-        squirt_them_squirrels(led)
+        squirt_them_squirrels
 
     return
 
@@ -152,6 +152,7 @@ relay_1.off()
 
 lcd.clear()
 
+pygame.init()
 # btn_1 = Button(14)
 
 
@@ -159,9 +160,10 @@ lcd.clear()
 
 
 b_yel = Button(18, hold_time=0.25)
-b_yel.when_pressed = button_press(l_yel)
-b_yel.when_held = button_hold(l_yel, b_yel)
-b_yel.when_released = button_release(l_yel)
+b_yel.when_pressed = button_press
+# b_yel.when_held = button_hold(l_yel, b_yel)
+b_yel.when_held = button_hold
+b_yel.when_released = button_release
 
 
 
