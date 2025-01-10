@@ -4,6 +4,7 @@ from signal import pause
 from datetime import datetime 
 from gpiozero import OutputDevice, Button
 from digitalio import DigitalInOut, Direction, Pull
+from os import path
 import board 
 import adafruit_character_lcd.character_lcd as characterlcd 
 import pygame
@@ -68,10 +69,15 @@ relay_1 = OutputDevice(23)
 
 lcd = characterlcd.Character_LCD_Mono(lcd_rs, lcd_en, lcd_d4, lcd_d5, lcd_d6, lcd_d7, lcd_columns, lcd_rows)
 
-pygame.mixer.init()
-sound_1 = pygame.mixer.Sound('assets/imhungry.mp3')
-sound_2 = pygame.mixer.Sound('assets/wannagoout.mp3')
 
+test = path.join(path.dirname(__file__), 'assets', "imhungry.mp3")
+test2 = path.join(path.dirname(__file__), 'assets', "wannagoout.mp3")
+
+pygame.mixer.init()
+# sound_1 = pygame.mixer.Sound('./assets/imhungry.mp3')
+# sound_2 = pygame.mixer.Sound('./assets/wannagoout.mp3')
+sound_1 = pygame.mixer.Sound(test)
+sound_2 = pygame.mixer.Sound(test2)
 
 lcd.clear()
 
