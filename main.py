@@ -5,6 +5,8 @@ from gpiozero import OutputDevice
 from digitalio import DigitalInOut, Direction, Pull
 import board 
 import adafruit_character_lcd.character_lcd as characterlcd 
+import pygame
+import analogio
 
 def squirt_them_squirrels(channel):
     lcd_line_1 = "squirrels!!!"
@@ -42,24 +44,30 @@ lcd_d7 = DigitalInOut(board.D24)
 
 btn_1 = DigitalInOut(board.D14)
 btn_1.direction = Direction.INPUT
-btn_1.pull = Pull.UP
+btn_1.pull = Pull.DOWN
 
 btn_2 = DigitalInOut(board.D15)
 btn_2.direction = Direction.INPUT
-btn_2.pull = Pull.UP
+btn_2.pull = Pull.DOWN
 
 btn_3 = DigitalInOut(board.D18)
 btn_3.direction = Direction.INPUT
-btn_3.pull = Pull.UP
+btn_3.pull = Pull.DOWN
 
-btn_yel = DigitalInOut(board.D7)
-btn_yel.direction = Direction.INPUT
-btn_yel.pull = Pull.UP
+# btn_yel = DigitalInOut(board.D7)
+# btn_yel.direction = Direction.INPUT
+# btn_yel.pull = Pull.DOWN
 
 relay_1 = OutputDevice(23) 
 
-lcd = characterlcd.Character_LCD_Mono(lcd_rs, lcd_en, lcd_d4, lcd_d5, lcd_d6,
-	                                      lcd_d7, lcd_columns, lcd_rows)
+potentiometer = analogio.AnalogIn(board.D7)
+
+lcd = characterlcd.Character_LCD_Mono(lcd_rs, lcd_en, lcd_d4, lcd_d5, lcd_d6, lcd_d7, lcd_columns, lcd_rows)
+
+pygame.mixer.init()
+sound_1 = pygame.mixer.Sound('./assets/imhungry.mp3')
+sound_2 = pygame.mixer.Sound('./assets/wannagoout.mp3')
+
 
 lcd.clear()
 
@@ -72,24 +80,23 @@ relay_1.off()
 sleep(0.5)
 relay_1.on()
 sleep(0.5)
-#relay_1.off()
+relay_1.off()
 
 lcd.clear()
 
 # main loop
 while True:
-    lcd.clear()
 
-    lcd_line_1 = "y: " + str(btn_yel.value)  + " 1: " +  str(btn_1.value)
-    lcd_line_2 = "2: " + str(btn_2.value) + " 3: " + str(btn_3.value)
-    # lcd_line_2 = str(btn_yel.value)
-
-
+    # lcd_line_1 = "y: " + str(btn_yel.value)  + " 1: " +  str(btn_1.value)
+    # lcd_line_2 = "2: " + str(btn_2.value) + " 3: " + str(btn_3.value)
+    lcd_line_1 = "volume:"
+    lcd_line_2 = potentiometer.value + "%"
 
     lcd.message = lcd_line_1 + "\n" + lcd_line_2
-    print(lcd_line_1 + " " + lcd_line_2)
+    # print(lcd_line_1 + " " + lcd_line_2)
     
-    sleep(0.01)
+    sleep(0.25)
+    lcd.clear()
 
 
 # looking for an active Ethernet or WiFi device
