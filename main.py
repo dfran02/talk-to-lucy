@@ -98,9 +98,9 @@ relay_1.off()
 lcd.clear()
 
 btn_1 = Button(14)
-btn_1.when_pressed = print("pressed")
-btn_1.when_held = print("held")
-btn_1.when_released = print("released")
+btn_1.when_pressed = squirt_them_squirrels
+btn_1.when_held = lucy_wants_to_eat
+btn_1.when_released = lucy_wants_to_go_out
 
 pause()
 
