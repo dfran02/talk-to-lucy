@@ -145,12 +145,16 @@ lcd_line_1 = "initializing...."
 lcd.message = lcd_line_1
 
 relay_1.on()
+l_yel.on()
 sleep(0.5)
 relay_1.off()
+l_yel.off()
 sleep(0.5)
 relay_1.on()
+l_yel.on()
 sleep(0.5)
 relay_1.off()
+l_yel.off()
 
 lcd.clear()
 
@@ -158,25 +162,22 @@ try:
     pygame.init()
     # btn_1 = Button(14)
 
-
-
-
-
     b_yel = Button(18, hold_time=0.25)
     b_yel.when_pressed = button_press
     # b_yel.when_held = button_hold(l_yel, b_yel)
     b_yel.when_held = button_hold
     b_yel.when_released = button_release
 
-
 except KeyboardInterrupt:
     print("bye bye!")
+    pause()
 except:
     print("some error happened!")
+    pause()
 finally:
     print("good bye!")
     pygame.quit()
-    pause()
+
 
 
 
