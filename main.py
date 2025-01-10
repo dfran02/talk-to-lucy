@@ -165,7 +165,7 @@ btn_1.when_released = lucy_wants_to_go_out
 
 l_yel = DigitalInOut(board.D8)
 
-b_yel = Button(18, held_time=0.25)
+b_yel = Button(18, hold_time=0.25)
 b_yel.when_pressed = button_press(l_yel)
 b_yel.when_held = button_hold(l_yel)
 b_yel.when_released = button_release(l_yel)
