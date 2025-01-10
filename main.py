@@ -59,10 +59,31 @@ test2 = path.join(path.dirname(__file__), 'assets', "wannagoout.mp3")
 
 
 def squirt_them_squirrels():
+
+    # play a sound
+    # blink the light
+    # panel status = "busy" (prevents addl button presses)
+
+    # lcd message "squirt them squirrels"
+    # lcd message "3...2...1..."
+
+    # lcd message "turning on water"
+    # relay open valve
+    # count down 5 seconds or whatever
+    # relay close value
+
+    # lcd message "squirt complete"
+    
+    # reset panel status to "ready"
+
+
+
+
+
     print("squirt them squerrls")
     pygame.mixer.init()
     # filepath = path.join(path.dirname(__file__), 'assets', "imhungry.mp3")
-    pygame.mixer.music.load("assets/imhungry.mp3")
+    pygame.mixer.music.load("./assets/imhungry.mp3")
     pygame.mixer.music.play()
     sleep(2)
     pygame.mixer.music.stop()
