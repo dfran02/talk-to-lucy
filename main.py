@@ -59,7 +59,7 @@ test2 = path.join(path.dirname(__file__), 'assets', "wannagoout.mp3")
 # sound_2 = pygame.mixer.music.load(test2)
 
 
-def squirt_them_squirrels(led):
+def squirt_them_squirrels():
 
     # play a sound
     # blink the light
@@ -77,7 +77,6 @@ def squirt_them_squirrels(led):
     
     # reset panel status to "ready"
 
-    led.blink(0.25, 0.25, 3, True)
 
 
 
@@ -128,7 +127,13 @@ def button_release(led):
 
 def button_hold(led, button):
     print("hold")
-    squirt_them_squirrels(led)
+
+    led.blink(0.25, 0.25, 3, True)
+
+    # do a switch on the button to define which method to exec
+    if (button.pin == 18):
+        squirt_them_squirrels(led)
+
     return
 
 
