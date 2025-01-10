@@ -14,6 +14,8 @@ def squirt_them_squirrels():
     filepath = path.join(path.dirname(__file__), 'assets', "imhungry.mp3")
     pygame.mixer.music.load(filepath)
     pygame.mixer.music.play()
+    sleep(2)
+    pygame.mixer.music.stop()
     # lcd_line_1 = "squirrels!!!"
     # lcd_line_2 = "here we go!"
     # lcd.message = lcd_line_1 + lcd_line_2
