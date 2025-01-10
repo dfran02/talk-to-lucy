@@ -9,36 +9,7 @@ import board
 import adafruit_character_lcd.character_lcd as characterlcd 
 import pygame
 
-def squirt_them_squirrels():
-    print("squirt them squerrls")
-    filepath = path.join(path.dirname(__file__), 'assets', "imhungry.mp3")
-    pygame.mixer.music.load(filepath)
-    pygame.mixer.music.play()
-    sleep(2)
-    pygame.mixer.music.stop()
-    # lcd_line_1 = "squirrels!!!"
-    # lcd_line_2 = "here we go!"
-    # lcd.message = lcd_line_1 + lcd_line_2
-    # print("squirt them squirrels!\n")
 
-    # relay_1.on()
-    # sleep(5)
-    # relay_1.off()
-    # return
-
-def lucy_wants_to_eat():
-    print("lucy wants to eat")
-    # lcd_line_2 = "Lucy is HUNGRY!!"
-    # lcd.message = lcd_line_2 + lcd_line_2
-    # print("lucy wants to eat\n")
-    # return
-
-def lucy_wants_to_go_out():
-    print("lucy wants out")
-    # lcd_line_1 = "OUT! OUT! OUT!"
-    # lcd.message = lcd_line_1 + lcd_line_2
-    # print("lucy wants to go out\n")
-    # return
 
 # constants
 lcd_columns = 16
@@ -110,6 +81,39 @@ btn_1.when_released = lucy_wants_to_go_out
 pause()
 
 
+
+def squirt_them_squirrels():
+    print("squirt them squerrls")
+    pygame.mixer.init()
+    filepath = path.join(path.dirname(__file__), 'assets', "imhungry.mp3")
+    pygame.mixer.music.load(filepath)
+    pygame.mixer.music.play()
+    sleep(2)
+    pygame.mixer.music.stop()
+    pygame.mixer.quit()
+    # lcd_line_1 = "squirrels!!!"
+    # lcd_line_2 = "here we go!"
+    # lcd.message = lcd_line_1 + lcd_line_2
+    # print("squirt them squirrels!\n")
+
+    # relay_1.on()
+    # sleep(5)
+    # relay_1.off()
+    # return
+
+def lucy_wants_to_eat():
+    print("lucy wants to eat")
+    # lcd_line_2 = "Lucy is HUNGRY!!"
+    # lcd.message = lcd_line_2 + lcd_line_2
+    # print("lucy wants to eat\n")
+    # return
+
+def lucy_wants_to_go_out():
+    print("lucy wants out")
+    # lcd_line_1 = "OUT! OUT! OUT!"
+    # lcd.message = lcd_line_1 + lcd_line_2
+    # print("lucy wants to go out\n")
+    # return
 
 
 # main loop:
