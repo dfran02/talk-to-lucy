@@ -76,8 +76,11 @@ test2 = path.join(path.dirname(__file__), 'assets', "wannagoout.mp3")
 pygame.mixer.init()
 # sound_1 = pygame.mixer.Sound('./assets/imhungry.mp3')
 # sound_2 = pygame.mixer.Sound('./assets/wannagoout.mp3')
-sound_1 = pygame.mixer.Sound(test)
-sound_2 = pygame.mixer.Sound(test2)
+# sound_1 = pygame.mixer.Sound(test)
+# sound_2 = pygame.mixer.Sound(test2)
+sound_1 = pygame.mixer.music.load(test)
+sound_2 = pygame.mixer.music.load(test2)
+
 
 lcd.clear()
 
