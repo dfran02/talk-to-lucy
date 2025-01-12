@@ -163,11 +163,11 @@ try:
     pygame.init()
     # btn_1 = Button(14)
 
-    b_yel = Button(pin=18, hold_time=0.25)
-    b_yel.when_pressed = button_press
-    # b_yel.when_held = button_hold(l_yel, b_yel)
-    b_yel.when_held = button_hold
-    b_yel.when_released = button_release
+    # b_yel = Button(pin=18, hold_time=0.25)
+    # b_yel.when_pressed = button_press
+    # # b_yel.when_held = button_hold(l_yel, b_yel)
+    # b_yel.when_held = button_hold
+    # b_yel.when_released = button_release
 
 except KeyboardInterrupt:
     print("bye bye!")
