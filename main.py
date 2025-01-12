@@ -166,7 +166,7 @@ try:
     b_yel = Button(18, hold_time=0.25)
     b_yel.when_pressed = button_press
     # b_yel.when_held = button_hold(l_yel, b_yel)
-    b_yel.when_held = button_hold
+    # b_yel.when_held = button_hold
     b_yel.when_released = button_release
 
 except KeyboardInterrupt:
