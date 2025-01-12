@@ -54,6 +54,7 @@ pygame.init()
 def squirt_them_squirrels():
     print("squirt them squerrls")
     sound_1 = pygame.mixer.Sound(path.join(path.dirname(__file__), 'assets', 'A3.wav'))
+    sound_1.set_volume(1)
     pygame.mixer.Sound.play(sound_1)
     return
 
