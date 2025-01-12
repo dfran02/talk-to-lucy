@@ -171,10 +171,8 @@ try:
 
 except KeyboardInterrupt:
     print("bye bye!")
-    pause()
 except Exception as ex:
     print("some error happened: ", ex)
-    pause()
 finally:
     print("good bye!")
     pygame.quit()
