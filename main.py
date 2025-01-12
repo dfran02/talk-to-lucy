@@ -45,67 +45,21 @@ relay_1 = OutputDevice(23)
 
 lcd = characterlcd.Character_LCD_Mono(lcd_rs, lcd_en, lcd_d4, lcd_d5, lcd_d6, lcd_d7, lcd_columns, lcd_rows)
 
-l_yel = LED(8)
-l_yel.on()
+l_yel = LED(7)
 
-test = path.join(path.dirname(__file__), 'assets', "imhungry.mp3")
-test2 = path.join(path.dirname(__file__), 'assets', "wannagoout.mp3")
-
-# pygame.mixer.init()
-# sound_1 = pygame.mixer.Sound('./assets/imhungry.mp3')
-# sound_2 = pygame.mixer.Sound('./assets/wannagoout.mp3')
-# sound_1 = pygame.mixer.Sound(test)
-# sound_2 = pygame.mixer.Sound(test2)
-# sound_1 = pygame.mixer.music.load(test)
-# sound_2 = pygame.mixer.music.load(test2)
+pygame.mixer.pre_init(44100, -16, 2, 128)
+pygame.init()
 
 
 def squirt_them_squirrels():
-
-    # play a sound
-    # blink the light
-    # panel status = "busy" (prevents addl button presses)
-
-    # lcd message "squirt them squirrels"
-    # lcd message "3...2...1..."
-
-    # lcd message "turning on water"
-    # relay open valve
-    # count down 5 seconds or whatever
-    # relay close value
-
-    # lcd message "squirt complete"
-    
-    # reset panel status to "ready"
-
-
-
-
-
     print("squirt them squerrls")
-
-    # todo: this isn't working
-    # pygame.init()
-    # filepath = path.join(path.dirname(__file__), 'assets', "imhungry.mp3")
-    pygame.mixer.music.load("./assets/imhungry.mp3")
-    pygame.mixer.music.play()
-    sleep(20)
-    pygame.mixer.music.stop()
-    
-
+    sound_1 = pygame.mixer.Sound(path.join(path.dirname(__file__), 'assets', 'A3.wav'))
+    pygame.mixer.Sound.play(sound_1)
     return
-    # lcd_line_1 = "squirrels!!!"
-    # lcd_line_2 = "here we go!"
-    # lcd.message = lcd_line_1 + lcd_line_2
-    # print("squirt them squirrels!\n")
-
-    # relay_1.on()
-    # sleep(5)
-    # relay_1.off()
-    # return
 
 def lucy_wants_to_eat():
     print("lucy wants to eat")
+    return
     # lcd_line_2 = "Lucy is HUNGRY!!"
     # lcd.message = lcd_line_2 + lcd_line_2
     # print("lucy wants to eat\n")
@@ -113,29 +67,29 @@ def lucy_wants_to_eat():
 
 def lucy_wants_to_go_out():
     print("lucy wants out")
+    return
     # lcd_line_1 = "OUT! OUT! OUT!"
     # lcd.message = lcd_line_1 + lcd_line_2
     # print("lucy wants to go out\n")
     # return
 
-def button_press(led):
-    led.on()
+def button_press(button):
     print("press")
     return
 
-def button_release(led):
-    led.off()
+def button_release(button):
+    # led.off()
     print("release")
     return
 
-def button_hold(led, button):
+def button_hold(button):
     print("hold")
-
-    led.blink(0.25, 0.25, 10, True)
+    # led.blink(0.25, 0.25, 10, True)
 
     # do a switch on the button to define which method to exec
-    if (button.pin == 18):
-        squirt_them_squirrels
+    if button.pin.number == 14:
+        print("button.pin: ", button.pin.number)
+        squirt_them_squirrels()
 
     return
 
@@ -144,6 +98,7 @@ lcd.clear()
 
 lcd_line_1 = "initializing...."
 lcd.message = lcd_line_1
+l_yel.blink(0.1,0.1,10,background=False)
 
 relay_1.on()
 l_yel.on()
@@ -161,20 +116,17 @@ lcd.clear()
 
 try:
     pygame.init()
-    # btn_1 = Button(14)
-
-    b_yel = Button(pin=18, hold_time=0.25)
-    # b_yel.when_pressed = button_press
-    # # b_yel.when_held = button_hold(l_yel, b_yel)
-    # b_yel.when_held = button_hold
-    # b_yel.when_released = button_release
-
+    b_yel = Button(14, hold_time=4)
+    b_yel.when_pressed = button_press
+    b_yel.when_held = button_hold
+    b_yel.when_released = button_release
+    hey = input("good morning:")
 except KeyboardInterrupt:
     print("bye bye!")
 except Exception as ex:
     print("some error happened: ", ex)
 finally:
-    print("good bye!")
+    print("good bye!, lol: ", lol)
     pygame.quit()
 
 
