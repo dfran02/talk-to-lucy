@@ -27,11 +27,8 @@ relay_1 = OutputDevice(23)
 
 led_b = LED(11)
 led_y = LED(9)
-ley_r = LED(7)
+led_r = LED(7)
 
-btn_b = create_button(18)
-btn_y = create_button(14)
-btn_r = create_button(3)
 # btn_x = create_button()       todo: use this for settings menu
 
 # switch_1 = create_switch()    todo: figure out how to wire, use as relay disconnect
@@ -39,13 +36,13 @@ btn_r = create_button(3)
 pygame.mixer.pre_init(44100, -16, 2, 128)
 pygame.init()
 
-def create_button(pin):
+def create_button(pin, hold_action):
+    print("create_button")
     button = Button(pin, hold_time=HOLD_TIME)
     button.when_pressed = button_press
-    button.when_held = button_hold
+    button.when_held = hold_action
     button.when_released = button_release
     return button
-
     
 def squirt_them_squirrels():
     print("squirt them squerrls")
@@ -57,25 +54,16 @@ def squirt_them_squirrels():
 def lucy_wants_to_eat():
     print("lucy wants to eat")
     return
-    # lcd_line_2 = "Lucy is HUNGRY!!"
-    # lcd.message = lcd_line_2 + lcd_line_2
-    # print("lucy wants to eat\n")
-    # return
 
 def lucy_wants_to_go_out():
     print("lucy wants out")
     return
-    # lcd_line_1 = "OUT! OUT! OUT!"
-    # lcd.message = lcd_line_1 + lcd_line_2
-    # print("lucy wants to go out\n")
-    # return
 
 def button_press(button):
     print("press")
     return
 
 def button_release(button):
-    # led.off()
     print("release")
     return
 
@@ -91,38 +79,45 @@ def button_hold(button):
     return
 
 
-lcd.clear()
-
-lcd_line_1 = "initializing...."
-lcd.message = lcd_line_1
-
-led_b.blink(0.2,0.2,10,background=True)
-sleep(0.1)
-led_y.blink(0.2,0.2,10,background=True)
-sleep(0.1)
-led_r.blink(0.2,0.2,10,background=True)
-sleep(0.1)
-
-relay_1.on()
-sleep(0.5)
-relay_1.off()
-sleep(0.5)
-relay_1.on()
-sleep(0.5)
-relay_1.off()
-
-lcd.clear()
-
 try:
+    btn_b = create_button(18, squirt_them_squirrels)
+    btn_y = create_button(14, lucy_wants_to_eat)
+    btn_r = create_button(3, lucy_wants_to_go_out)
+
+    lcd.clear()
+
+    lcd_line_1 = "initializing...."
+    lcd.message = lcd_line_1
+
+    led_b.blink(0.2,0.2,10,background=True)
+    sleep(0.1)
+    led_y.blink(0.2,0.2,10,background=True)
+    sleep(0.1)
+    led_r.blink(0.2,0.2,10,background=True)
+    sleep(0.1)
+
+    relay_1.on()
+    sleep(0.5)
+    relay_1.off()
+    sleep(0.5)
+    relay_1.on()
+    sleep(0.5)
+    relay_1.off()
+
+    lcd.clear()
+
     pygame.init()
     hey = input("good morning:")
+    pause()
 except KeyboardInterrupt:
     print("bye bye!")
 except Exception as ex:
     print("some error happened: ", ex)
+    raw_input("does this work?")
 finally:
     print("good bye!, lol: ", lol)
     pygame.quit()
+    raw_input("wait")
 
 
 
