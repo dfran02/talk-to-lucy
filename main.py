@@ -9,11 +9,10 @@ import board
 import adafruit_character_lcd.character_lcd as characterlcd 
 import pygame
 
-
-
 # constants
-lcd_columns = 16
-lcd_rows = 2
+HOLD_TIME = 0.25
+LCD_COLUMNS = 16
+LCD_ROWS = 2
 
 # gpio pin assignment
 lcd_rs = DigitalInOut(board.D4)
@@ -22,35 +21,32 @@ lcd_d4 = DigitalInOut(board.D27)
 lcd_d5 = DigitalInOut(board.D22)
 lcd_d6 = DigitalInOut(board.D25)
 lcd_d7 = DigitalInOut(board.D24)
-
-# btn_1 = DigitalInOut(board.D14)
-# btn_1.direction = Direction.INPUT
-# btn_1.pull = Pull.DOWN
-
-# btn_2 = DigitalInOut(board.D15)
-# btn_2.direction = Direction.INPUT
-# btn_2.pull = Pull.DOWN
-
-# btn_3 = DigitalInOut(board.D18)
-# btn_3.direction = Direction.INPUT
-# btn_3.pull = Pull.DOWN
-
-# btn_yel = DigitalInOut(board.D7)
-# btn_yel.direction = Direction.INPUT
-# btn_yel.pull = Pull.DOWN
+lcd = characterlcd.Character_LCD_Mono(lcd_rs, lcd_en, lcd_d4, lcd_d5, lcd_d6, lcd_d7, LCD_COLUMNS, LCD_ROWS)
 
 relay_1 = OutputDevice(23) 
 
-# potentiometer = analogio.AnalogIn(board.D7)
+led_b = LED(11)
+led_y = LED(9)
+ley_r = LED(7)
 
-lcd = characterlcd.Character_LCD_Mono(lcd_rs, lcd_en, lcd_d4, lcd_d5, lcd_d6, lcd_d7, lcd_columns, lcd_rows)
+btn_b = create_button(18)
+btn_y = create_button(14)
+btn_r = create_button(3)
+# btn_x = create_button()       todo: use this for settings menu
 
-l_yel = LED(7)
+# switch_1 = create_switch()    todo: figure out how to wire, use as relay disconnect
 
 pygame.mixer.pre_init(44100, -16, 2, 128)
 pygame.init()
 
+def create_button(pin):
+    button = Button(pin, hold_time=HOLD_TIME)
+    button.when_pressed = button_press
+    button.when_held = button_hold
+    button.when_released = button_release
+    return button
 
+    
 def squirt_them_squirrels():
     print("squirt them squerrls")
     sound_1 = pygame.mixer.Sound(path.join(path.dirname(__file__), 'assets', 'A3.wav'))
@@ -99,28 +95,26 @@ lcd.clear()
 
 lcd_line_1 = "initializing...."
 lcd.message = lcd_line_1
-l_yel.blink(0.1,0.1,10,background=False)
+
+led_b.blink(0.2,0.2,10,background=True)
+sleep(0.1)
+led_y.blink(0.2,0.2,10,background=True)
+sleep(0.1)
+led_r.blink(0.2,0.2,10,background=True)
+sleep(0.1)
 
 relay_1.on()
-l_yel.on()
 sleep(0.5)
 relay_1.off()
-l_yel.off()
 sleep(0.5)
 relay_1.on()
-l_yel.on()
 sleep(0.5)
 relay_1.off()
-l_yel.off()
 
 lcd.clear()
 
 try:
     pygame.init()
-    b_yel = Button(14, hold_time=4)
-    b_yel.when_pressed = button_press
-    b_yel.when_held = button_hold
-    b_yel.when_released = button_release
     hey = input("good morning:")
 except KeyboardInterrupt:
     print("bye bye!")
