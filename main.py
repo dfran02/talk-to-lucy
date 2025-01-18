@@ -25,8 +25,8 @@ lcd = characterlcd.Character_LCD_Mono(lcd_rs, lcd_en, lcd_d4, lcd_d5, lcd_d6, lc
 
 relay_1 = OutputDevice(23) 
 
-led_b = LED(11)
-led_y = LED(9)
+led_y = LED(15)
+led_b = LED(8)
 led_r = LED(7)
 
 # btn_x = create_button()       todo: use this for settings menu
@@ -46,17 +46,21 @@ def create_button(pin, hold_action):
     
 def squirt_them_squirrels():
     print("squirt them squerrls")
-    sound_1 = pygame.mixer.Sound(path.join(path.dirname(__file__), 'assets', 'A3.wav'))
-    sound_1.set_volume(1)
-    pygame.mixer.Sound.play(sound_1)
     return
 
 def lucy_wants_to_eat():
     print("lucy wants to eat")
+    sound_2 = pygame.mixer.Sound(path.join(path.dirname(__file__), 'assets', 'lucy_food.wav'))
+    sound_2.set_volume(1)
+    pygame.mixer.Sound.play(sound_2)
     return
 
 def lucy_wants_to_go_out():
     print("lucy wants out")
+
+    sound_1 = pygame.mixer.Sound(path.join(path.dirname(__file__), 'assets', 'lucy_out.wav'))
+    sound_1.set_volume(1)
+    pygame.mixer.Sound.play(sound_1)
     return
 
 def button_press(button):
@@ -81,20 +85,20 @@ def button_hold(button):
 
 try:
     btn_b = create_button(18, squirt_them_squirrels)
-    btn_y = create_button(14, lucy_wants_to_eat)
-    btn_r = create_button(3, lucy_wants_to_go_out)
+    btn_y = create_button(14, lucy_wants_to_go_out)
+    btn_r = create_button(11, lucy_wants_to_eat)
 
     lcd.clear()
 
     lcd_line_1 = "initializing...."
     lcd.message = lcd_line_1
 
-    led_b.blink(0.2,0.2,10,background=True)
-    sleep(0.1)
-    led_y.blink(0.2,0.2,10,background=True)
-    sleep(0.1)
-    led_r.blink(0.2,0.2,10,background=True)
-    sleep(0.1)
+    #led_b.blink(0.2,0.2,100,background=False)
+    #sleep(0.1)
+    #led_y.blink(0.2,0.2,100,background=True)
+    #sleep(0.1)
+    #led_r.blink(0.2,0.2,100,background=True)
+    #sleep(0.1)
 
     relay_1.on()
     sleep(0.5)
@@ -107,13 +111,20 @@ try:
     lcd.clear()
 
     pygame.init()
-    hey = input("good morning:")
-    pause()
+    #hey = input("good morning:")
+
+    print("\nyellow")
+    led_y.blink(0.1,0.1,10,background=False)
+    print("\nblue")
+    led_b.blink(0.1,0.1,10,background=False)
+    print("\nred")
+    led_r.blink(0.1,0.1,10,background=False)
+    input('loaded!')
 except KeyboardInterrupt:
     print("bye bye!")
 except Exception as ex:
     print("some error happened: ", ex)
-    raw_input("does this work?")
+    pause()
 finally:
     print("good bye!, lol: ", lol)
     pygame.quit()
