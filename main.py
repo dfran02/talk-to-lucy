@@ -8,59 +8,69 @@ from os import path
 import board 
 import adafruit_character_lcd.character_lcd as characterlcd 
 import pygame
+from enum import Enum
 
 # constants
 HOLD_TIME = 0.25
 LCD_COLUMNS = 16
 LCD_ROWS = 2
 
-# gpio pin assignment
-lcd_rs = DigitalInOut(board.D4)
-lcd_en = DigitalInOut(board.D17)
-lcd_d4 = DigitalInOut(board.D27)
-lcd_d5 = DigitalInOut(board.D22)
-lcd_d6 = DigitalInOut(board.D25)
-lcd_d7 = DigitalInOut(board.D24)
-lcd = characterlcd.Character_LCD_Mono(lcd_rs, lcd_en, lcd_d4, lcd_d5, lcd_d6, lcd_d7, LCD_COLUMNS, LCD_ROWS)
+class Status(Enum):
+    INITIALIZING = 0
+    READY = 1
+    WORKING = 2
 
-relay_1 = OutputDevice(23) 
+# globals
+SYSTEM_STATUS = Enum('Status', 'INITIALIZING') 
 
-led_y = LED(15)
-led_b = LED(8)
-led_r = LED(7)
-
-# btn_x = create_button()       todo: use this for settings menu
-
+y
 # switch_1 = create_switch()    todo: figure out how to wire, use as relay disconnect
 
-pygame.mixer.pre_init(44100, -16, 2, 128)
-pygame.init()
+
+def display_message(line_1):
+    # we can create a system.status enum (0 Initialization, 1 Ready, 2 Working) and write line 1 without requiring line_1 parameter
+    lcd.clear()
+    lcd.message = SYSTEM_STATUS + lcd_line_2
+    return
 
 def create_button(pin, hold_action):
-    print("create_button")
     button = Button(pin, hold_time=HOLD_TIME)
     button.when_pressed = button_press
     button.when_held = hold_action
     button.when_released = button_release
+
     return button
+
+def init_sounds(file_path):
+    # really just want a single file initializer here (init_sound)
+    # we need to refer to and call the method in a not-dumb way. maybe an action' enum (0 squirrel, 1 food, 2 out, etc)
+    # or a tuple (0 squirrel squirrel.wav, 1 food lucy_food.wav, etc)
+    pygame.init()
     
+    sound_0 = pygame.mixer.Sound(path.join(path.dirname(__file__), 'assets', 'system_test.wav'))
+    sound_0.set_volume(1)
+    sound_1 = pygame.mixer.Sound(path.join(path.dirname(__file__), 'assets', 'lucy_food.wav'))
+    sound_1.set_volume(1)
+    sound_2 = pygame.mixer.Sound(path.join(path.dirname(__file__), 'assets', 'lucy_out.wav'))
+    sound_2.set_volume(1)
+
+    pygame.mixer.Sound.play(sound_0)
+
+    return
+
+
 def squirt_them_squirrels():
     print("squirt them squerrls")
     return
 
 def lucy_wants_to_eat():
     print("lucy wants to eat")
-    sound_2 = pygame.mixer.Sound(path.join(path.dirname(__file__), 'assets', 'lucy_food.wav'))
-    sound_2.set_volume(1)
-    pygame.mixer.Sound.play(sound_2)
+    pygame.mixer.Sound.play(sound_1)
     return
 
 def lucy_wants_to_go_out():
     print("lucy wants out")
-
-    sound_1 = pygame.mixer.Sound(path.join(path.dirname(__file__), 'assets', 'lucy_out.wav'))
-    sound_1.set_volume(1)
-    pygame.mixer.Sound.play(sound_1)
+    pygame.mixer.Sound.play(sound_2)
     return
 
 def button_press(button):
@@ -84,14 +94,19 @@ def button_hold(button):
 
 
 try:
+    # -> system_initialize()
+    lcd = characterlcd.Character_LCD_Mono(DigitalInOut(board.D4), DigitalInOut(board.D17), DigitalInOut(board.D27), DigitalInOut(board.D22), DigitalInOut(board.D25), DigitalInOut(board.D24), LCD_COLUMNS, LCD_ROWS)
+    relay_1 = OutputDevice(23) 
+    led_r = LED(7)
+    led_b = LED(8)
+    led_y = LED(15)
+
+    display_message('Initializing','Please wait...')
+
     btn_b = create_button(18, squirt_them_squirrels)
     btn_y = create_button(14, lucy_wants_to_go_out)
     btn_r = create_button(11, lucy_wants_to_eat)
-
-    lcd.clear()
-
-    lcd_line_1 = "initializing...."
-    lcd.message = lcd_line_1
+    pygame.init()
 
     #led_b.blink(0.2,0.2,100,background=False)
     #sleep(0.1)
@@ -100,6 +115,8 @@ try:
     #led_r.blink(0.2,0.2,100,background=True)
     #sleep(0.1)
 
+    display_message('Initializing','Relay test...')
+
     relay_1.on()
     sleep(0.5)
     relay_1.off()
@@ -108,18 +125,27 @@ try:
     sleep(0.5)
     relay_1.off()
 
-    lcd.clear()
-
-    pygame.init()
-    #hey = input("good morning:")
-
-    print("\nyellow")
+    display_message('Initializing','Light test...')
+    sleep(0.5)
+    display_message('Initializing','Yellow:')
     led_y.blink(0.1,0.1,10,background=False)
-    print("\nblue")
+    display_message('Initializing','Blue:')
     led_b.blink(0.1,0.1,10,background=False)
-    print("\nred")
+    display_message('Initializing','Red:')
     led_r.blink(0.1,0.1,10,background=False)
+
+    display_message('Initializing','Sound test...')
+
+    init_sounds()
+
+    display_message('Initializing','Finalizing...')
+    sleep(1)    # tricky!
+    display_message('Ready!','')
+    sleep(1)
+    display_message('datetime','Armed')
+
     input('loaded!')
+
 except KeyboardInterrupt:
     print("bye bye!")
 except Exception as ex:
