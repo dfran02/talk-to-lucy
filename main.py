@@ -37,7 +37,7 @@ def squirt_them_squirrels():
     sleep(0.5)
     relay_valve.on()
     sleep(0.5)
-    relay_value.off()
+    relay_valve.off()
     print("squirt them squerrls")
     return
 
